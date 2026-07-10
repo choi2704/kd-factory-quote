@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>강동자바라 스텐 자바라 대문 견적계산기</title>
+<style>
+:root{--navy:#183b57;--blue:#0c6fb8;--light:#f4f7fa;--line:#d9e1e8;--text:#17212b;--muted:#647482;--red:#c8392b}
+*{box-sizing:border-box} body{margin:0;font-family:Pretendard,"Noto Sans KR",Arial,sans-serif;color:var(--text);background:#eef3f7}
+a{text-decoration:none;color:inherit}.top{background:#fff;border-bottom:1px solid var(--line);padding:14px 22px;display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;gap:11px;align-items:center}.mark{width:40px;height:40px;border-radius:8px;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:24px}
+.brand strong{display:block;font-size:20px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:2px}.toplinks{display:flex;gap:8px}.toplinks a{padding:10px 14px;border-radius:8px;font-weight:800;font-size:14px}.phone{background:#edf3f8}.talk{background:#20c65a;color:#fff}
+.hero{background:linear-gradient(125deg,#122f47,#1e587e);color:#fff;padding:34px 20px}.hero-inner{max-width:1080px;margin:auto}.eyebrow{font-size:12px;letter-spacing:2px;opacity:.7}.hero h1{font-size:34px;margin:8px 0}.hero p{margin:0;opacity:.86}.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.badges span{font-size:13px;background:rgba(255,255,255,.13);padding:8px 11px;border-radius:999px}
+.wrap{max-width:1080px;margin:22px auto;padding:0 14px}.layout{display:grid;grid-template-columns:1.12fr .88fr;gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 7px 20px rgba(18,47,71,.06);margin-bottom:18px}
+.card h2{font-size:20px;margin:0 0 17px}.step{display:inline-grid;place-items:center;width:26px;height:26px;background:var(--navy);color:#fff;border-radius:50%;font-size:13px;margin-right:7px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field.full{grid-column:1/-1}label{display:block;font-size:13px;font-weight:800;margin-bottom:6px}
+select,input{width:100%;height:46px;border:1px solid #bcc9d3;border-radius:9px;padding:0 11px;font-size:15px;background:#fff}
+.inline{display:grid;grid-template-columns:1fr 112px;gap:8px}.meter{height:46px;border-radius:9px;background:#eef4f8;display:grid;place-items:center;font-weight:900;color:var(--navy)}
+.help{font-size:12px;color:var(--muted);line-height:1.5;margin-top:5px}.warn{background:#fff4e1;border:1px solid #f3d59b;color:#79510d;padding:11px;border-radius:9px;font-size:13px;line-height:1.5;margin-top:13px}
+.switch{display:flex;align-items:center;gap:9px;margin:4px 0 13px}.switch input{width:20px;height:20px}.housebox{display:none;padding:14px;border-radius:11px;background:#f5f8fb;border:1px solid var(--line)}
+.result-main{text-align:center;padding:16px;border-radius:13px;background:linear-gradient(140deg,#173b57,#0d6dac);color:#fff}.result-main span{display:block;font-size:13px;opacity:.82}.result-main strong{display:block;font-size:34px;margin-top:7px}
+.rows{margin-top:14px}.row{display:flex;justify-content:space-between;gap:12px;padding:10px 2px;border-bottom:1px solid #e7edf1;font-size:14px}.row span:first-child{color:var(--muted)}.row b{text-align:right}
+.notice{margin-top:13px;padding:12px;background:#f5f7f9;border-radius:9px;font-size:12px;line-height:1.65;color:#53616d}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.btn{height:47px;border:0;border-radius:9px;font-size:14px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center}.primary{background:var(--blue);color:#fff}.dark{background:var(--navy);color:#fff}.light{background:#e8eef3}.green{background:#20c65a;color:#fff}
+.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px;border:1px solid var(--line);text-align:center}th{background:#eef3f7}
+.quote-modal{position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:50;display:none;padding:18px;overflow:auto}.quote-sheet{max-width:820px;margin:auto;background:#fff;padding:35px;min-height:1000px}
+.q-head{display:flex;justify-content:space-between;border-bottom:3px solid #1d3d56;padding-bottom:18px}.q-head h1{font-size:30px;letter-spacing:10px;margin:13px 0 0}.q-company{text-align:right;font-size:12px;line-height:1.65}.q-info{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:20px 0}.q-box{border:1px solid #bbb}.q-box div{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid #ddd;min-height:36px}.q-box div:last-child{border-bottom:0}.q-box span{background:#f1f3f5;padding:9px;font-weight:800}.q-box b,.q-box input{padding:9px;border:0;height:auto;font-weight:500}
+.q-total{text-align:right;font-size:21px;font-weight:900;margin:18px 0}.q-terms{font-size:13px;line-height:1.8;margin-top:18px;border:1px solid #ccc;padding:14px}.modal-actions{max-width:820px;margin:10px auto;display:flex;gap:8px;justify-content:flex-end}.modal-actions button{padding:12px 18px;border:0;border-radius:8px;font-weight:900;cursor:pointer}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.hero h1{font-size:28px}.top{padding:11px}.brand small{display:none}.toplinks .phone{display:none}.quote-sheet{padding:18px}.q-info{grid-template-columns:1fr}.q-head h1{font-size:24px;letter-spacing:4px}}
+@media print{body>*:not(.quote-modal){display:none!important}.quote-modal{position:static;display:block!important;background:#fff;padding:0}.quote-sheet{max-width:none;margin:0;padding:12mm;min-height:auto}.modal-actions{display:none}.quote-sheet input{border:0}.q-company{font-size:11px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><b class="mark">K</b><span><strong>강동자바라</strong><small>스테인리스 구조물 맞춤 제작</small></span></div>
+  <div class="toplinks"><a class="phone" href="tel:01075950484">010-7595-0484</a><a class="talk" href="https://talk.naver.com/ct/w4a85f?frm=psf" target="_blank">톡톡 문의</a></div>
+</header>
+<section class="hero"><div class="hero-inner">
+  <div class="eyebrow">KANGDONG JABARA ESTIMATE</div>
+  <h1>스텐 자바라 대문 견적계산기</h1>
+  <p>일반형·고급형과 하우스 옵션을 선택하고 견적서까지 바로 출력하세요.</p>
+  <div class="badges"><span>최소 주문 3m</span><span>제작기간 4~5일</span><span>배송 화물착불</span><span>VAT 포함 예상가</span></div>
+</div></section>
+
+<main class="wrap">
+<div class="layout">
+<section>
+<div class="card">
+<h2><span class="step">1</span>자바라 사양 입력</h2>
+<div class="formgrid">
+  <div class="field"><label>제품 종류</label><select id="type"><option value="normal">일반형</option><option value="premium">고급형</option></select></div>
+  <div class="field"><label>개폐 방식</label><select id="openType"><option>편개형</option><option>양개형</option></select></div>
+  <div class="field"><label>재질</label><select id="material"><option value="201">SUS201</option><option value="304">SUS304</option></select></div>
+  <div class="field"><label>높이</label><select id="height"><option value="1200">H1200</option><option value="1500">H1500</option></select></div>
+  <div class="field"><label>바퀴 종류</label><select id="wheel"><option value="angle">앵글바퀴</option><option value="60">60파이 우레탄</option><option value="100">100파이 우레탄 (+5,000원/m)</option></select></div>
+  <div class="field"><label>수량</label><input id="qty" type="number" min="1" value="1"></div>
+  <div class="field full"><label>자바라 총 길이 (mm)</label><div class="inline"><input id="length" type="number" min="3000" step="10" placeholder="예: 7500"><div class="meter" id="meter">0.00m</div></div><div class="help">최소 주문 길이는 3,000mm(3m)입니다.</div></div>
+</div>
+<div class="warn">배송은 <b>화물착불</b>이며, 주문 확정 후 예상 제작기간은 <b>평일 기준 4~5일</b>입니다. 현장·물량에 따라 달라질 수 있습니다.</div>
+</div>
+
+<div class="card">
+<h2><span class="step">2</span>하우스 추가 옵션</h2>
+<label class="switch"><input id="houseUse" type="checkbox"> 자바라 보관용 스텐 하우스 추가</label>
+<div class="housebox" id="houseBox">
+  <div class="formgrid">
+    <div class="field"><label>하우스 높이</label><select id="houseHeight"><option value="1350">H1350</option><option value="1650">H1650</option></select></div>
+    <div class="field"><label>하우스 재질</label><select id="houseMaterial"><option value="201">SUS201</option><option value="304">SUS304</option></select></div>
+  </div>
+  <div class="help" id="houseGuide">입력 길이에 맞춰 하우스 깊이 구간과 가격이 자동 적용됩니다.</div>
+</div>
+</div>
+
+<div class="card">
+<h2>단가표</h2>
+<div class="tablewrap"><table>
+<thead><tr><th>제품</th><th>재질</th><th>H1200</th><th>H1500</th></tr></thead>
+<tbody>
+<tr><td rowspan="2">일반형</td><td>SUS201</td><td>80,000원/m</td><td>100,000원/m</td></tr>
+<tr><td>SUS304</td><td>120,000원/m</td><td>140,000원/m</td></tr>
+<tr><td rowspan="2">고급형</td><td>SUS201</td><td>110,000원/m</td><td>130,000원/m</td></tr>
+<tr><td>SUS304</td><td>150,000원/m</td><td>170,000원/m</td></tr>
+</tbody></table></div>
+</div>
+</section>
+
+<aside>
+<div class="card" style="position:sticky;top:14px">
+<h2>견적 결과</h2>
+<div class="result-main"><span>총 예상 견적금액</span><strong id="total">0원</strong></div>
+<div class="rows">
+<div class="row"><span>제품 사양</span><b id="rSpec">일반형 · 편개형</b></div>
+<div class="row"><span>재질 / 높이</span><b id="rMat">SUS201 · H1200</b></div>
+<div class="row"><span>바퀴</span><b id="rWheel">앵글바퀴</b></div>
+<div class="row"><span>입력 길이</span><b id="rLength">길이를 입력해주세요</b></div>
+<div class="row"><span>1m 기본단가</span><b id="rUnit">0원</b></div>
+<div class="row"><span>바퀴 추가금</span><b id="rWheelPrice">0원</b></div>
+<div class="row"><span>자바라 금액</span><b id="rGate">0원</b></div>
+<div class="row"><span>하우스 옵션</span><b id="rHouseName">선택 안 함</b></div>
+<div class="row"><span>하우스 금액</span><b id="rHouse">0원</b></div>
+<div class="row"><span>수량</span><b id="rQty">1대</b></div>
+</div>
+<div class="notice">
+· 최소 주문 길이: 3m<br>
+· 배송: 화물착불<br>
+· 제작기간: 주문 확정 후 평일 기준 4~5일<br>
+· VAT 포함 예상가 / 운임·시공비 별도<br>
+· 레일, 경사, 현장 조건은 상담 후 확정
+</div>
+<div class="buttons"><button class="btn light" id="copy">견적내용 복사</button><button class="btn primary" id="quote">견적서 만들기</button><a class="btn green" href="https://talk.naver.com/ct/w4a85f?frm=psf" target="_blank">톡톡 문의</a><a class="btn dark" href="tel:01075950484">전화 문의</a></div>
+</div>
+</aside>
+</div>
+</main>
+
+<div class="quote-modal" id="modal">
+<div class="quote-sheet">
+  <div class="q-head">
+    <div><div style="font-weight:900;font-size:20px;color:#173b57">강동자바라</div><h1>견 적 서</h1></div>
+    <div class="q-company"><b>(주)강동자바라</b><br>사업자등록번호 221-81-49797<br>경기도 광주시 곤지암읍 구수동길 1-26<br>담당 010-7595-0484</div>
+  </div>
+  <div class="q-info">
+    <div class="q-box">
+      <div><span>견적번호</span><b id="qNo"></b></div>
+      <div><span>견적일자</span><b id="qDate"></b></div>
+      <div><span>유효기간</span><b>견적일로부터 7일</b></div>
+    </div>
+    <div class="q-box">
+      <div><span>수신</span><input id="customer" placeholder="고객명 또는 업체명"></div>
+      <div><span>연락처</span><input id="customerPhone" placeholder="연락처"></div>
+      <div><span>담당자</span><b>강동자바라</b></div>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th>품목</th><th>규격 및 사양</th><th>수량</th><th>단가</th><th>공급가액</th></tr></thead>
+    <tbody id="qBody"></tbody>
+  </table>
+  <div class="q-total">합계금액(VAT 포함): <span id="qTotal"></span></div>
+  <div class="q-terms">
+    <b>거래 조건</b><br>
+    1. 최소 주문 길이는 3m입니다.<br>
+    2. 배송비는 화물착불이며 지역 및 화물 크기에 따라 운임이 달라집니다.<br>
+    3. 예상 제작기간은 주문 확정 및 결제 후 평일 기준 4~5일입니다.<br>
+    4. 레일, 경사, 설치·시공비 및 현장 특수조건은 별도 견적입니다.<br>
+    5. 본 견적은 입력 사양을 기준으로 한 예상 견적이며 최종 제작 전 담당자 확인이 필요합니다.
+  </div>
+  <div style="text-align:center;margin-top:50px;font-size:18px;font-weight:900">위와 같이 견적합니다.</div>
+</div>
+<div class="modal-actions"><button onclick="closeQuote()">닫기</button><button style="background:#173b57;color:#fff" onclick="window.print()">PDF 저장 / 인쇄</button></div>
+</div>
+
+<script>
+const PRICES={
+ normal:{201:{1200:80000,1500:100000},304:{1200:120000,1500:140000}},
+ premium:{201:{1200:110000,1500:130000},304:{1200:150000,1500:170000}}
+};
+const HOUSE={
+ 1350:{201:[250000,350000,450000,500000,600000],304:[300000,450000,550000,600000,700000]},
+ 1650:{201:[300000,450000,550000,600000,700000],304:[350000,500000,600000,650000,750000]}
+};
+const HOUSE_LABELS=["3~7.5m / 깊이 1000mm","8.5~10m / 깊이 1300mm","11~13m / 깊이 1700mm","14~16m / 깊이 2000mm","17~20m / 별도 확인"];
+const $=id=>document.getElementById(id);
+const won=n=>(Math.round(n)||0).toLocaleString("ko-KR")+"원";
+function houseIndex(m){if(m<=7.5)return 0;if(m<=10)return 1;if(m<=13)return 2;if(m<=16)return 3;if(m<=20)return 4;return -1}
+function calc(){
+ const type=$("type").value, open=$("openType").value, mat=$("material").value, h=$("height").value;
+ const wheel=$("wheel").value, mm=Number($("length").value)||0, m=mm/1000, qty=Math.max(1,Number($("qty").value)||1);
+ $("meter").textContent=m.toFixed(2)+"m";
+ const valid=m>=3;
+ const unit=PRICES[type][mat][h], wheelPerM=wheel==="100"?5000:0;
+ const gateOne=valid?(unit+wheelPerM)*m:0;
+ let housePrice=0, houseLabel="선택 안 함", hi=-1;
+ if($("houseUse").checked && valid){
+   hi=houseIndex(m);
+   if(hi>=0){const hh=$("houseHeight").value, hm=$("houseMaterial").value; housePrice=HOUSE[hh][hm][hi];houseLabel=`H${hh} · SUS${hm} · ${HOUSE_LABELS[hi]}`;}
+   else houseLabel="20m 초과 · 별도 문의";
+ }
+ const total=(gateOne+housePrice)*qty;
+ $("rSpec").textContent=(type==="normal"?"일반형":"고급형")+" · "+open;
+ $("rMat").textContent="SUS"+mat+" · H"+h;
+ $("rWheel").textContent=wheel==="angle"?"앵글바퀴":wheel+"파이 우레탄";
+ $("rLength").textContent=valid?mm.toLocaleString()+"mm ("+m.toFixed(2)+"m)":(mm?"최소 3,000mm 이상 입력":"길이를 입력해주세요");
+ $("rUnit").textContent=won(unit)+"/m";
+ $("rWheelPrice").textContent=won(valid?wheelPerM*m:0);
+ $("rGate").textContent=won(gateOne*qty);
+ $("rHouseName").textContent=houseLabel;
+ $("rHouse").textContent=won(housePrice*qty);
+ $("rQty").textContent=qty+"대";
+ $("total").textContent=won(total);
+ if($("houseUse").checked){
+   $("houseGuide").textContent=valid?(hi>=0?"자동 적용: "+HOUSE_LABELS[hi]:"20m 초과는 하우스 별도 문의가 필요합니다."):"길이를 입력하면 하우스 구간이 자동 적용됩니다.";
+ }
+ return {type,open,mat,h,wheel,mm,m,qty,valid,unit,wheelPerM,gateOne,housePrice,houseLabel,total};
+}
+["type","openType","material","height","wheel","length","qty","houseHeight","houseMaterial"].forEach(id=>$(id).addEventListener("input",calc));
+$("houseUse").addEventListener("change",()=>{$("houseBox").style.display=$("houseUse").checked?"block":"none";calc()});
+$("height").addEventListener("change",()=>{$("houseHeight").value=$("height").value==="1200"?"1350":"1650";calc()});
+function textQuote(x){
+ return `[강동자바라 자바라 대문 예상견적]
+제품: ${x.type==="normal"?"일반형":"고급형"} / ${x.open}
+재질·높이: SUS${x.mat} / H${x.h}
+길이: ${x.mm.toLocaleString()}mm (${x.m.toFixed(2)}m)
+바퀴: ${x.wheel==="angle"?"앵글바퀴":x.wheel+"파이 우레탄"}
+수량: ${x.qty}대
+자바라 금액: ${won(x.gateOne*x.qty)}
+하우스: ${x.houseLabel}
+하우스 금액: ${won(x.housePrice*x.qty)}
+총 예상금액: ${won(x.total)}
+배송: 화물착불
+제작기간: 주문 확정 후 평일 기준 4~5일
+※ VAT 포함 예상가 / 운임·시공비 별도`;
+}
+$("copy").onclick=async()=>{const x=calc();if(!x.valid)return alert("최소 3,000mm 이상 입력해주세요.");try{await navigator.clipboard.writeText(textQuote(x));alert("견적내용을 복사했습니다.");}catch(e){prompt("아래 내용을 복사해주세요.",textQuote(x));}};
+$("quote").onclick=()=>{const x=calc();if(!x.valid)return alert("최소 3,000mm 이상 입력해주세요.");openQuote(x)};
+function openQuote(x){
+ const d=new Date(), ds=d.toLocaleDateString("ko-KR"), no="KD-"+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0")+"-"+String(Date.now()).slice(-5);
+ $("qNo").textContent=no;$("qDate").textContent=ds;$("qTotal").textContent=won(x.total);
+ const wheelName=x.wheel==="angle"?"앵글바퀴":x.wheel+"파이 우레탄";
+ let rows=`<tr><td>스텐 자바라 대문</td><td>${x.type==="normal"?"일반형":"고급형"} / ${x.open} / SUS${x.mat} / H${x.h}<br>${x.mm.toLocaleString()}mm (${x.m.toFixed(2)}m) / ${wheelName}</td><td>${x.qty}대</td><td>${won((x.unit+x.wheelPerM)*x.m)}</td><td>${won(x.gateOne*x.qty)}</td></tr>`;
+ if(x.housePrice)rows+=`<tr><td>스텐 하우스</td><td>${x.houseLabel}</td><td>${x.qty}개</td><td>${won(x.housePrice)}</td><td>${won(x.housePrice*x.qty)}</td></tr>`;
+ $("qBody").innerHTML=rows;$("modal").style.display="block";document.body.style.overflow="hidden";
+}
+function closeQuote(){$("modal").style.display="none";document.body.style.overflow=""}window.closeQuote=closeQuote;
+calc();
+</script>
+</body>
+</html>
