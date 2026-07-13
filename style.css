@@ -87,3 +87,8 @@
 @media(max-width:760px){.actions{grid-template-columns:1fr}.work-item-body{grid-template-columns:1fr}.work-spec{border-right:0;border-bottom:1px solid #333}.work-check-grid{grid-template-columns:1fr}.work-title-row{align-items:flex-start;gap:10px}.work-title-row h1{font-size:22px;letter-spacing:4px}.work-number{min-width:170px}.work-check-grid label{width:48%}}
 @media print{#workSheet.open .paper{display:block}.work-paper{font-size:11px}.work-item{break-inside:avoid}.work-check-grid{break-inside:avoid}}
 .child-row td{background:#f7fafc}.child-row td:nth-child(2),.child-row .spec-cell{color:#445b6d}.child-row .product-tag{background:#e8eef3;color:#314b60}
+
+/* V6: 견적서/작업지시서 화면 전환 */
+body.sheet-open{background:#dfe5eb;overflow-x:hidden}
+body.sheet-open>.topbar,body.sheet-open>main.wrap{display:none!important}
+body.sheet-open>.quote-sheet.open{display:block!important}

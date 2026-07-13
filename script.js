@@ -72,8 +72,21 @@ function render(){
 }
 window.removeItem=i=>{const target=items[i];if(target&&target.groupId&&(target.kind==="jabara"||target.kind==="house")){items=items.filter(x=>x.groupId!==target.groupId)}else items.splice(i,1);render()};
 $("resetAll").onclick=()=>{if(confirm("모든 입력 내용과 견적 목록을 초기화할까요?")){items=[];document.querySelectorAll(".form-grid input").forEach(x=>x.value="");$("quoteDate").value=new Date().toISOString().slice(0,10);render()}};
-$("makeQuote").onclick=()=>{if(!items.length)return alert("견적 목록에 제품을 추가해 주세요.");buildQuote();$("quoteSheet").classList.add("open");$("quoteSheet").setAttribute("aria-hidden","false");window.scrollTo(0,0)};
-$("closeQuote").onclick=()=>{$("quoteSheet").classList.remove("open");$("quoteSheet").setAttribute("aria-hidden","true");window.scrollTo(0,0)};
+$("makeQuote").onclick=()=>{
+ if(!items.length)return alert("견적 목록에 제품을 추가해 주세요.");
+ buildQuote();
+ $("workSheet").classList.remove("open");
+ $("quoteSheet").classList.add("open");
+ $("quoteSheet").setAttribute("aria-hidden","false");
+ document.body.classList.add("sheet-open");
+ window.scrollTo({top:0,behavior:"instant"});
+};
+$("closeQuote").onclick=()=>{
+ $("quoteSheet").classList.remove("open");
+ $("quoteSheet").setAttribute("aria-hidden","true");
+ document.body.classList.remove("sheet-open");
+ window.scrollTo({top:0,behavior:"instant"});
+};
 $("printQuote").onclick=async()=>{buildQuote();if(document.fonts&&document.fonts.ready)await document.fonts.ready;requestAnimationFrame(()=>requestAnimationFrame(()=>window.print()))};
 function quoteNumber(){const d=new Date();return`KD-${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}-${String(Date.now()).slice(-5)}`}
 function buildQuote(){const val=id=>$(id).value||"-";$("qNo").textContent=quoteNumber();$("qDate").textContent=val("quoteDate");$("qCompany").textContent=val("company");$("qManager").textContent=val("manager");$("qPhone").textContent=val("phone");$("qProject").textContent=val("project");$("qItems").innerHTML=items.map((x,i)=>`<tr><td>${i+1}</td><td>${x.name}</td><td class="spec-cell">${x.spec}</td><td>${x.unitName}</td><td>${x.qty}</td><td>${won(x.unitPrice)}</td><td>${won(x.amount)}</td><td>${x.note||""}</td></tr>`).join("");const t=totals();$("qSupply").textContent=won(t.supply);$("qVat").textContent=won(t.vat);$("qGrand").textContent=won(t.grand);$("qGrandTop").textContent=`총금액 ${won(t.grand)} (V.A.T. 포함)`;const conditions=[...new Set(items.flatMap(x=>x.conditions||[]))];$("qConditions").innerHTML=conditions.map(x=>`<p>${x}</p>`).join("")}
@@ -95,7 +108,20 @@ function buildWork(){
  const hasJabara=items.some(x=>x.kind==="jabara");$("wDelivery").textContent=hasJabara?"화물착불 / 출고 전 연락":"담당자 확인";
  $("workItems").innerHTML=items.map((x,i)=>`<section class="work-item"><div class="work-item-head"><b>${i+1}. ${esc(x.name)}</b><span>수량 ${esc(x.qty)}${esc(x.unitName)}</span></div><div class="work-item-body"><div class="work-spec"><b>제작 사양</b><br>${esc(x.spec)}<br><b>단가/금액</b> ${won(x.unitPrice)} / ${won(x.amount)}<br><b>비고</b> ${esc(x.note||"-")}</div><div class="work-process"><b style="grid-column:1/-1">품목별 확인</b>${processChecks(x).map(v=>`<label>□ ${v}</label>`).join("")}</div><div class="work-memo"><b>작업 메모 / 수정사항</b><br><br></div></div></section>`).join("");
 }
-$("makeWork").onclick=()=>{if(!items.length)return alert("견적 목록에 제품을 추가해 주세요.");buildWork();$("workSheet").classList.add("open");$("workSheet").setAttribute("aria-hidden","false");window.scrollTo(0,0)};
-$("closeWork").onclick=()=>{$("workSheet").classList.remove("open");$("workSheet").setAttribute("aria-hidden","true");window.scrollTo(0,0)};
+$("makeWork").onclick=()=>{
+ if(!items.length)return alert("견적 목록에 제품을 추가해 주세요.");
+ buildWork();
+ $("quoteSheet").classList.remove("open");
+ $("workSheet").classList.add("open");
+ $("workSheet").setAttribute("aria-hidden","false");
+ document.body.classList.add("sheet-open");
+ window.scrollTo({top:0,behavior:"instant"});
+};
+$("closeWork").onclick=()=>{
+ $("workSheet").classList.remove("open");
+ $("workSheet").setAttribute("aria-hidden","true");
+ document.body.classList.remove("sheet-open");
+ window.scrollTo({top:0,behavior:"instant"});
+};
 $("printWork").onclick=async()=>{buildWork();if(document.fonts&&document.fonts.ready)await document.fonts.ready;requestAnimationFrame(()=>requestAnimationFrame(()=>window.print()))};
 $("copyWork").onclick=async()=>{const lines=["[강동자바라 작업지시서]",`업체명: ${$("company").value||"-"}`,`현장명: ${$("project").value||"-"}`,`납기예정: ${$("dueDate").value||"-"}`,`작업담당: ${$("worker").value||"-"}`,...items.map((x,i)=>`${i+1}. ${x.name} / ${x.spec} / ${x.qty}${x.unitName} / 비고: ${x.note||"-"}`)];try{await navigator.clipboard.writeText(lines.join("\n"));alert("작업지시 내용을 복사했습니다.")}catch(e){prompt("아래 내용을 복사해 주세요.",lines.join("\n"))}};
