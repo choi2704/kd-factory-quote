@@ -29,6 +29,8 @@
         <label>연락처<input id="phone" placeholder="010-0000-0000"></label>
         <label class="wide">이메일<input id="email" type="email" placeholder="example@email.com"></label>
         <label class="wide">현장명 / 비고<input id="project" placeholder="현장명 또는 전달사항"></label>
+        <label>납기 예정일<input id="dueDate" type="date"></label>
+        <label>작업 담당자<input id="worker" placeholder="작업 담당자명"></label>
       </div>
     </article>
 
@@ -48,6 +50,8 @@
     <div class="product-tabs" id="productTabs">
       <button class="active" data-product="guard">방범창</button>
       <button data-product="jabara">스텐 자바라</button>
+      <button data-product="lexan">렉산 절단</button>
+      <button data-product="ladder">사다리</button>
     </div>
 
     <div id="guardForm" class="product-form active">
@@ -102,6 +106,51 @@
       <p class="status" id="jStatus">최소 3,000mm 이상 길이를 입력해 주세요.</p>
       <button class="primary full" id="addJabara">＋ 자바라 견적 목록에 추가</button>
     </div>
+
+
+    <div id="lexanForm" class="product-form">
+      <div class="option-grid">
+        <label>두께<select id="lThickness"><option value="2">2T</option><option value="3">3T</option></select></label>
+        <label>색상<select id="lColor"><option>투명</option><option>브론즈</option><option>블루</option><option>그린</option><option>불투명</option></select></label>
+        <label>가로(mm)<input id="lWidth" type="number" min="1" placeholder="예: 1000"></label>
+        <label>세로(mm)<input id="lHeight" type="number" min="1" placeholder="예: 2000"></label>
+        <label>수량<input id="lQty" type="number" min="1" value="1"></label>
+        <label>공급 단가(장당)<input id="lUnitPrice" type="number" min="0" step="1000" placeholder="자동 계산 후 수정 가능"></label>
+        <label class="wide">비고<input id="lNote" placeholder="예: 보호필름 유지, 모서리 라운딩"></label>
+      </div>
+      <div class="live-result">
+        <div><small>면적</small><b id="lArea">0.000㎡</b></div>
+        <div><small>추천 공급단가</small><b id="lSuggested">0원</b></div>
+        <div><small>장당 적용단가</small><b id="lApplied">0원</b></div>
+        <div class="accent"><small>입력 수량 금액</small><b id="lLinePrice">0원</b></div>
+      </div>
+      <div class="condition-box"><b>렉산 절단 조건</b><span>배송 화물착불 · 보호필름 유지 · 절단 후 포장</span></div>
+      <p class="status" id="lStatus">가로와 세로를 입력해 주세요.</p>
+      <button class="primary full" id="addLexan">＋ 렉산 절단 견적 목록에 추가</button>
+    </div>
+
+    <div id="ladderForm" class="product-form">
+      <div class="option-grid">
+        <label>사다리 종류<select id="dType"><option>일자형 사다리</option><option>엘보사다리</option><option>안전망사다리</option></select></label>
+        <label>재질<select id="dMaterial"><option>SUS201</option><option>SUS304</option><option>스틸 도장</option></select></label>
+        <label>전체 높이(mm)<input id="dHeight" type="number" min="1" placeholder="예: 4500"></label>
+        <label>폭(mm)<input id="dWidth" type="number" min="1" value="500"></label>
+        <label>디딤판 간격(mm)<input id="dStep" type="number" min="1" value="300"></label>
+        <label>안전망<select id="dCage"><option>없음</option><option>포함</option></select></label>
+        <label>수량<input id="dQty" type="number" min="1" value="1"></label>
+        <label>공급 단가(대당)<input id="dUnitPrice" type="number" min="0" step="1000" placeholder="확정 단가 입력"></label>
+        <label class="wide">비고<input id="dNote" placeholder="예: 상부 난간 포함, 앙카 포함"></label>
+      </div>
+      <div class="live-result">
+        <div><small>예상 디딤판 수</small><b id="dSteps">0개</b></div>
+        <div><small>안전망</small><b id="dCageText">없음</b></div>
+        <div><small>대당 공급단가</small><b id="dApplied">0원</b></div>
+        <div class="accent"><small>입력 수량 금액</small><b id="dLinePrice">0원</b></div>
+      </div>
+      <div class="condition-box"><b>사다리 제작 조건</b><span>현장 치수·고정방식 확인 후 최종 제작</span></div>
+      <p class="status" id="dStatus">높이와 공급 단가를 입력해 주세요.</p>
+      <button class="primary full" id="addLadder">＋ 사다리 견적 목록에 추가</button>
+    </div>
   </section>
 
   <section class="card">
@@ -120,6 +169,7 @@
     <div class="actions">
       <button class="secondary" id="resetAll">전체 초기화</button>
       <button class="primary" id="makeQuote">견적서 만들기</button>
+      <button class="work-btn" id="makeWork">작업지시서 만들기</button>
     </div>
   </section>
 </main>
@@ -138,6 +188,26 @@
     <div class="quote-total-line">아래와 같이 견적합니다. <strong id="qGrandTop">총금액 0원 (V.A.T. 포함)</strong></div>
     <table class="quote-items"><thead><tr><th>No.</th><th>제품명</th><th>규격 및 사양</th><th>단위</th><th>수량</th><th>단가</th><th>공급가액</th><th>비고</th></tr></thead><tbody id="qItems"></tbody></table>
     <div class="quote-bottom"><div class="notice"><b>견적 조건</b><div id="qConditions"></div><p>선입금 100% 확인 후 제작 일정이 확정됩니다.</p><p>현장 조건 및 추가 제작 조건에 따라 최종 금액이 변경될 수 있습니다.</p><p>입금계좌: 기업은행 242-134872-04-021 / ㈜강동자바라</p></div><table><tr><th>공급가액</th><td id="qSupply"></td></tr><tr><th>부가세</th><td id="qVat"></td></tr><tr class="grand"><th>총금액</th><td id="qGrand"></td></tr></table></div>
+  </article>
+</section>
+
+<section id="workSheet" class="quote-sheet" aria-hidden="true">
+  <div class="quote-toolbar no-print">
+    <button id="closeWork">← 계산기로 돌아가기</button>
+    <div><button id="copyWork">작업지시내용 복사</button><button class="work-btn" id="printWork">인쇄 / PDF 저장</button></div>
+  </div>
+  <article class="paper work-paper">
+    <div class="work-title-row"><div><p>KD FACTORY WORK ORDER</p><h1>작 업 지 시 서</h1></div><div class="work-number"><span>작업번호</span><b id="wNo"></b></div></div>
+    <div class="quote-info">
+      <table><tr><th>지시일자</th><td id="wDate"></td></tr><tr><th>납기예정</th><td id="wDue"></td></tr><tr><th>업체명</th><td id="wCompany"></td></tr><tr><th>담당자</th><td id="wManager"></td></tr><tr><th>연락처</th><td id="wPhone"></td></tr><tr><th>현장명</th><td id="wProject"></td></tr></table>
+      <table><tr><th>작업 담당</th><td id="wWorker"></td></tr><tr><th>발행처</th><td>㈜강동자바라</td></tr><tr><th>주소</th><td>경기도 광주시 곤지암읍 구수동길 1-26</td></tr><tr><th>연락처</th><td>1577-6084</td></tr><tr><th>출고 방법</th><td id="wDelivery">현장 확인</td></tr><tr><th>공통 비고</th><td id="wCommonNote"></td></tr></table>
+    </div>
+    <div id="workItems" class="work-items"></div>
+    <div class="work-check-grid">
+      <div><b>공정 진행</b><label>□ 자재확인</label><label>□ 절단</label><label>□ 타공</label><label>□ 절곡</label><label>□ 용접</label><label>□ 연마</label><label>□ 조립</label><label>□ 검수</label><label>□ 포장</label><label>□ 출고</label></div>
+      <div><b>최종 확인</b><p>□ 규격 확인</p><p>□ 수량 확인</p><p>□ 재질 확인</p><p>□ 옵션 확인</p><p>□ 외관 확인</p><p>□ 출고 사진 촬영</p><p>검수자: __________________</p><p>출고일: __________________</p></div>
+    </div>
+    <div class="work-sign"><span>작성자 __________________</span><span>작업책임자 __________________</span><span>최종확인 __________________</span></div>
   </article>
 </section>
 <script src="script.js"></script>
