@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>KD Factory Quote | 강동자바라 통합 견적센터</title>
+  <title>KD Factory Quote V5 | 강동자바라 통합 견적센터</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -15,7 +15,7 @@
 <main class="wrap">
   <section class="hero">
     <p class="eyebrow">KD FACTORY QUOTE</p>
-    <h1>강동자바라 통합 공장견적센터</h1>
+    <h1>강동자바라 통합 공장견적센터 V5</h1>
     <p>여러 제품을 한 견적 목록에 추가하고, 하나의 견적서로 자동 출력할 수 있습니다.</p>
   </section>
 
@@ -50,8 +50,6 @@
     <div class="product-tabs" id="productTabs">
       <button class="active" data-product="guard">방범창</button>
       <button data-product="jabara">스텐 자바라</button>
-      <button data-product="lexan">렉산 절단</button>
-      <button data-product="ladder">사다리</button>
     </div>
 
     <div id="guardForm" class="product-form active">
@@ -99,57 +97,12 @@
       <div class="live-result jabara-result">
         <div><small>길이</small><b id="jLengthText">0.00m</b></div>
         <div><small>1m 단가</small><b id="jUnit">0원</b></div>
-        <div><small>하우스</small><b id="jHouse">선택 안 함</b></div>
+        <div><small>하우스 별도금액</small><b id="jHouse">선택 안 함</b></div>
         <div class="accent"><small>입력 수량 금액</small><b id="jLinePrice">0원</b></div>
       </div>
       <div class="condition-box"><b>자바라 주문 조건</b><span>최소 주문 3m · 배송 화물착불 · 제작기간 평일 기준 4~5일</span></div>
       <p class="status" id="jStatus">최소 3,000mm 이상 길이를 입력해 주세요.</p>
       <button class="primary full" id="addJabara">＋ 자바라 견적 목록에 추가</button>
-    </div>
-
-
-    <div id="lexanForm" class="product-form">
-      <div class="option-grid">
-        <label>두께<select id="lThickness"><option value="2">2T</option><option value="3">3T</option></select></label>
-        <label>색상<select id="lColor"><option>투명</option><option>브론즈</option><option>블루</option><option>그린</option><option>불투명</option></select></label>
-        <label>가로(mm)<input id="lWidth" type="number" min="1" placeholder="예: 1000"></label>
-        <label>세로(mm)<input id="lHeight" type="number" min="1" placeholder="예: 2000"></label>
-        <label>수량<input id="lQty" type="number" min="1" value="1"></label>
-        <label>공급 단가(장당)<input id="lUnitPrice" type="number" min="0" step="1000" placeholder="자동 계산 후 수정 가능"></label>
-        <label class="wide">비고<input id="lNote" placeholder="예: 보호필름 유지, 모서리 라운딩"></label>
-      </div>
-      <div class="live-result">
-        <div><small>면적</small><b id="lArea">0.000㎡</b></div>
-        <div><small>추천 공급단가</small><b id="lSuggested">0원</b></div>
-        <div><small>장당 적용단가</small><b id="lApplied">0원</b></div>
-        <div class="accent"><small>입력 수량 금액</small><b id="lLinePrice">0원</b></div>
-      </div>
-      <div class="condition-box"><b>렉산 절단 조건</b><span>배송 화물착불 · 보호필름 유지 · 절단 후 포장</span></div>
-      <p class="status" id="lStatus">가로와 세로를 입력해 주세요.</p>
-      <button class="primary full" id="addLexan">＋ 렉산 절단 견적 목록에 추가</button>
-    </div>
-
-    <div id="ladderForm" class="product-form">
-      <div class="option-grid">
-        <label>사다리 종류<select id="dType"><option>일자형 사다리</option><option>엘보사다리</option><option>안전망사다리</option></select></label>
-        <label>재질<select id="dMaterial"><option>SUS201</option><option>SUS304</option><option>스틸 도장</option></select></label>
-        <label>전체 높이(mm)<input id="dHeight" type="number" min="1" placeholder="예: 4500"></label>
-        <label>폭(mm)<input id="dWidth" type="number" min="1" value="500"></label>
-        <label>디딤판 간격(mm)<input id="dStep" type="number" min="1" value="300"></label>
-        <label>안전망<select id="dCage"><option>없음</option><option>포함</option></select></label>
-        <label>수량<input id="dQty" type="number" min="1" value="1"></label>
-        <label>공급 단가(대당)<input id="dUnitPrice" type="number" min="0" step="1000" placeholder="확정 단가 입력"></label>
-        <label class="wide">비고<input id="dNote" placeholder="예: 상부 난간 포함, 앙카 포함"></label>
-      </div>
-      <div class="live-result">
-        <div><small>예상 디딤판 수</small><b id="dSteps">0개</b></div>
-        <div><small>안전망</small><b id="dCageText">없음</b></div>
-        <div><small>대당 공급단가</small><b id="dApplied">0원</b></div>
-        <div class="accent"><small>입력 수량 금액</small><b id="dLinePrice">0원</b></div>
-      </div>
-      <div class="condition-box"><b>사다리 제작 조건</b><span>현장 치수·고정방식 확인 후 최종 제작</span></div>
-      <p class="status" id="dStatus">높이와 공급 단가를 입력해 주세요.</p>
-      <button class="primary full" id="addLadder">＋ 사다리 견적 목록에 추가</button>
     </div>
   </section>
 
