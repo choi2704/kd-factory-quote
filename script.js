@@ -3,8 +3,22 @@ const guardRates={알루미늄:3500,SUS201:4200,SUS304:5200};
 const jabaraRates={일반형:{201:{1200:80000,1500:100000},304:{1200:120000,1500:140000}},고급형:{201:{1200:110000,1500:130000},304:{1200:150000,1500:170000}}};
 let mode='guard',material='알루미늄',items=[];
 $('quoteDate').value=new Date().toISOString().slice(0,10);
-function rateHtml(){return mode==='guard'?`<div class="rate-list"><div><b>알루미늄</b><strong>3,500원</strong></div><div><b>SUS201</b><strong>4,200원</strong></div><div><b>SUS304</b><strong>5,200원</strong></div></div><p class="formula">가로 × 세로 ÷ 90,000 = 계산칸수 <b>올림</b></p><p class="muted">계산칸수 × 재질단가 × 수량</p>`:`<div class="rate-list"><div><b>일반형 201</b><strong>80,000~100,000원/m</strong></div><div><b>일반형 304</b><strong>120,000~140,000원/m</strong></div><div><b>고급형 201</b><strong>110,000~130,000원/m</strong></div><div><b>고급형 304</b><strong>150,000~170,000원/m</strong></div></div><p class="formula">높이별 1m 단가 × 제작길이 × 수량</p><p class="muted">최소 3m · 100파이 바퀴 선택 시 5,000원/m 추가</p>`}
-function switchMode(next){mode=next;document.querySelectorAll('.product-switch button').forEach(b=>b.classList.toggle('active',b.dataset.product===next));$('guardForm').classList.toggle('hidden',next!=='guard');$('jabaraForm').classList.toggle('hidden',next!=='jabara');$('calcTitle').textContent=next==='guard'?'방범창 제품 계산':'스텐 자바라 제품 계산';$('rateContent').innerHTML=rateHtml();updateLive()}
+function rateHtml(){
+  if(mode==='guard'){
+    return `<div class="rate-list"><div><b>알루미늄</b><strong>3,500원</strong></div><div><b>SUS201</b><strong>4,200원</strong></div><div><b>SUS304</b><strong>5,200원</strong></div></div><p class="formula">가로 × 세로 ÷ 90,000 = 계산칸수 <b>올림</b></p><p class="muted">계산칸수 × 재질단가 × 수량</p>`;
+  }
+  return `<table class="rate-table"><thead><tr><th>형태</th><th>재질</th><th>높이</th><th>1m 단가</th></tr></thead><tbody>
+  <tr><td>일반형</td><td>SUS201</td><td>1200</td><td>80,000원</td></tr>
+  <tr><td>일반형</td><td>SUS201</td><td>1500</td><td>100,000원</td></tr>
+  <tr><td>일반형</td><td>SUS304</td><td>1200</td><td>120,000원</td></tr>
+  <tr><td>일반형</td><td>SUS304</td><td>1500</td><td>140,000원</td></tr>
+  <tr><td>고급형</td><td>SUS201</td><td>1200</td><td>110,000원</td></tr>
+  <tr><td>고급형</td><td>SUS201</td><td>1500</td><td>130,000원</td></tr>
+  <tr><td>고급형</td><td>SUS304</td><td>1200</td><td>150,000원</td></tr>
+  <tr><td>고급형</td><td>SUS304</td><td>1500</td><td>170,000원</td></tr>
+  </tbody></table><p class="formula">높이별 1m 단가 × 제작길이 × 수량</p><p class="muted">최소 주문 3m · 100파이 우레탄바퀴 선택 시 1m당 5,000원 추가</p>`;
+}
+function switchMode(next){mode=next;document.querySelectorAll('.product-switch button').forEach(b=>b.classList.toggle('active',b.dataset.product===next));const guard=$('guardForm'),jabara=$('jabaraForm');guard.classList.toggle('hidden',next!=='guard');jabara.classList.toggle('hidden',next!=='jabara');guard.setAttribute('aria-hidden',String(next!=='guard'));jabara.setAttribute('aria-hidden',String(next!=='jabara'));$('calcTitle').textContent=next==='guard'?'방범창 제품 계산':'스텐 자바라 제품 계산';$('rateContent').innerHTML=rateHtml();updateLive()}
 document.querySelectorAll('.product-switch button').forEach(b=>b.onclick=()=>switchMode(b.dataset.product));
 document.querySelectorAll('#materialTabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#materialTabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');material=b.dataset.material;updateLive()});
 ['width','height','guardQty','jType','jMaterial','jHeight','jLength','jQty','bigWheel'].forEach(id=>$(id).addEventListener('input',updateLive));document.querySelectorAll('[name=jOption]').forEach(x=>x.addEventListener('change',updateLive));
