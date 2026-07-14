@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>KD Factory Quote V5 | 강동자바라 통합 견적센터</title>
-  <link rel="stylesheet" href="style.css?v=20260713-6" />
+  <title>강동자바라 공장단가 견적센터</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 <header class="topbar">
@@ -14,9 +14,9 @@
 
 <main class="wrap">
   <section class="hero">
-    <p class="eyebrow">KD FACTORY QUOTE</p>
-    <h1>강동자바라 통합 공장견적센터 V5</h1>
-    <p>여러 제품을 한 견적 목록에 추가하고, 하나의 견적서로 자동 출력할 수 있습니다.</p>
+    <p class="eyebrow">KANGDONG JABARA FACTORY QUOTE CENTER</p>
+    <h1>방범창 공장단가 견적 계산기</h1>
+    <p>재질과 실측 가로·세로, 수량을 입력하면 공장단가와 견적서를 한 번에 확인할 수 있습니다.</p>
   </section>
 
   <section class="grid two">
@@ -29,88 +29,49 @@
         <label>연락처<input id="phone" placeholder="010-0000-0000"></label>
         <label class="wide">이메일<input id="email" type="email" placeholder="example@email.com"></label>
         <label class="wide">현장명 / 비고<input id="project" placeholder="현장명 또는 전달사항"></label>
-        <label>납기 예정일<input id="dueDate" type="date"></label>
-        <label>작업 담당자<input id="worker" placeholder="작업 담당자명"></label>
       </div>
     </article>
 
     <article class="card rate-card">
-      <div class="card-title"><span>안내</span><h2>공통 견적 기준</h2></div>
-      <div class="rate-list compact">
-        <div><b>부가세</b><strong>별도 10%</strong></div>
-        <div><b>견적 방식</b><strong>제품별 자동 계산</strong></div>
-        <div><b>출력</b><strong>A4 견적서 / PDF</strong></div>
+      <div class="card-title"><span>단가</span><h2>적용 기준</h2></div>
+      <div class="rate-list">
+        <div><b>알루미늄</b><strong>3,500원</strong></div>
+        <div><b>SUS201</b><strong>4,200원</strong></div>
+        <div><b>SUS304</b><strong>5,200원</strong></div>
       </div>
-      <p class="muted">제품별 배송·제작 조건은 견적서 하단에 자동 표시됩니다.</p>
+      <p class="formula">가로(mm) × 세로(mm) ÷ 90,000 = 계산칸수 <b>올림</b></p>
+      <p class="muted">계산칸수 × 재질단가 × 수량으로 제품금액을 계산합니다.</p>
     </article>
   </section>
 
   <section class="card calculator">
     <div class="card-title"><span>02</span><h2>제품 계산</h2></div>
-    <div class="product-tabs" id="productTabs">
-      <button class="active" data-product="guard">방범창</button>
-      <button data-product="jabara">스텐 자바라</button>
+    <div class="material-tabs" id="materialTabs">
+      <button class="active" data-material="알루미늄">알루미늄</button>
+      <button data-material="SUS201">SUS201</button>
+      <button data-material="SUS304">SUS304</button>
     </div>
-
-    <div id="guardForm" class="product-form active">
-      <div class="material-tabs" id="materialTabs">
-        <button class="active" data-material="알루미늄">알루미늄</button>
-        <button data-material="SUS201">SUS201</button>
-        <button data-material="SUS304">SUS304</button>
-      </div>
-      <div class="calc-grid">
-        <label>가로 사이즈(mm)<input id="width" type="number" min="1" max="10000" placeholder="예: 1550"></label>
-        <label>세로 사이즈(mm)<input id="height" type="number" min="1" max="10000" placeholder="예: 1800"></label>
-        <label>수량<input id="guardQty" type="number" min="1" value="1"></label>
-        <label>비고<input id="guardNote" placeholder="예: 피스 포함"></label>
-      </div>
-      <div class="live-result">
-        <div><small>선택 재질</small><b id="selectedMaterial">알루미늄</b></div>
-        <div><small>계산칸수</small><b id="unitCount">0칸</b></div>
-        <div><small>칸당 단가</small><b id="unitPrice">0원</b></div>
-        <div class="accent"><small>입력 수량 금액</small><b id="guardLinePrice">0원</b></div>
-      </div>
-      <p class="status" id="guardStatus">가로와 세로를 입력해 주세요.</p>
-      <button class="primary full" id="addGuard">＋ 방범창 견적 목록에 추가</button>
+    <div class="calc-grid">
+      <label>가로 사이즈(mm)<input id="width" type="number" min="1" max="10000" placeholder="예: 1550"></label>
+      <label>세로 사이즈(mm)<input id="height" type="number" min="1" max="10000" placeholder="예: 1800"></label>
+      <label>수량<input id="qty" type="number" min="1" value="1"></label>
+      <label>비고<input id="itemNote" placeholder="예: 피스 포함"></label>
     </div>
-
-    <div id="jabaraForm" class="product-form">
-      <div class="option-grid">
-        <label>제품 종류<select id="jType"><option value="normal">일반형</option><option value="premium">고급형</option></select></label>
-        <label>재질<select id="jMaterial"><option value="201">SUS201</option><option value="304">SUS304</option></select></label>
-        <label>높이<select id="jHeight"><option value="1200">H1200</option><option value="1500">H1500</option></select></label>
-        <label>개폐 방식<select id="jOpen"><option>편개형</option><option>양개형</option></select></label>
-        <label>바퀴<select id="jWheel"><option value="angle">앵글바퀴</option><option value="60">60파이 우레탄</option><option value="100">100파이 우레탄 (+5,000원/m)</option></select></label>
-        <label>총 길이(mm)<input id="jLength" type="number" min="3000" step="10" placeholder="최소 3000"></label>
-        <label>수량<input id="jQty" type="number" min="1" value="1"></label>
-        <label>비고<input id="jNote" placeholder="예: 레일 별도"></label>
-      </div>
-
-      <div class="house-option">
-        <label class="check-row"><input id="houseUse" type="checkbox"> 보관용 스텐 하우스 추가</label>
-        <div id="houseFields" class="house-fields">
-          <label>하우스 높이<select id="houseHeight"><option value="1350">H1350</option><option value="1650">H1650</option></select></label>
-          <label>하우스 재질<select id="houseMaterial"><option value="201">SUS201</option><option value="304">SUS304</option></select></label>
-        </div>
-      </div>
-
-      <div class="live-result jabara-result">
-        <div><small>길이</small><b id="jLengthText">0.00m</b></div>
-        <div><small>1m 단가</small><b id="jUnit">0원</b></div>
-        <div><small>하우스 별도금액</small><b id="jHouse">선택 안 함</b></div>
-        <div class="accent"><small>입력 수량 금액</small><b id="jLinePrice">0원</b></div>
-      </div>
-      <div class="condition-box"><b>자바라 주문 조건</b><span>최소 주문 3m · 배송 화물착불 · 제작기간 평일 기준 4~5일</span></div>
-      <p class="status" id="jStatus">최소 3,000mm 이상 길이를 입력해 주세요.</p>
-      <button class="primary full" id="addJabara">＋ 자바라 견적 목록에 추가</button>
+    <div class="live-result">
+      <div><small>선택 재질</small><b id="selectedMaterial">알루미늄</b></div>
+      <div><small>계산칸수</small><b id="unitCount">0칸</b></div>
+      <div><small>제품 단가</small><b id="unitPrice">0원</b></div>
+      <div class="accent"><small>입력 수량 금액</small><b id="linePrice">0원</b></div>
     </div>
+    <p class="status" id="status">가로와 세로를 입력해 주세요.</p>
+    <button class="primary full" id="addItem">＋ 견적 목록에 추가</button>
   </section>
 
   <section class="card">
-    <div class="card-title"><span>03</span><h2>통합 견적 목록</h2></div>
+    <div class="card-title"><span>03</span><h2>견적 목록</h2></div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>No.</th><th>제품명</th><th>규격 및 사양</th><th>단위</th><th>수량</th><th>단가</th><th>공급가액</th><th>비고</th><th></th></tr></thead>
+        <thead><tr><th>No.</th><th>재질</th><th>규격(mm)</th><th>칸수</th><th>수량</th><th>단가</th><th>금액</th><th>비고</th><th></th></tr></thead>
         <tbody id="itemsBody"><tr class="empty"><td colspan="9">제품을 계산해 견적 목록에 추가해 주세요.</td></tr></tbody>
       </table>
     </div>
@@ -122,7 +83,6 @@
     <div class="actions">
       <button class="secondary" id="resetAll">전체 초기화</button>
       <button class="primary" id="makeQuote">견적서 만들기</button>
-      <button class="work-btn" id="makeWork">작업지시서 만들기</button>
     </div>
   </section>
 </main>
@@ -130,39 +90,20 @@
 <section id="quoteSheet" class="quote-sheet" aria-hidden="true">
   <div class="quote-toolbar no-print">
     <button id="closeQuote">← 계산기로 돌아가기</button>
-    <div><button id="copyQuote">견적내용 복사</button><button class="primary" id="printQuote">인쇄 / PDF 저장</button></div>
+    <div><button id="copyQuote">견적내용 복사</button><button id="saveJpg">JPG 이미지 저장</button><button class="primary" id="printQuote">인쇄 / PDF 저장</button></div>
   </div>
   <article class="paper">
     <h1>견 적 서</h1>
     <div class="quote-info">
-      <table><tr><th>견적번호</th><td id="qNo"></td></tr><tr><th>견적일자</th><td id="qDate"></td></tr><tr><th>업체명</th><td id="qCompany"></td></tr><tr><th>담당자</th><td id="qManager"></td></tr><tr><th>연락처</th><td id="qPhone"></td></tr><tr><th>현장명</th><td id="qProject"></td></tr></table>
+      <table><tr><th>견적일자</th><td id="qDate"></td></tr><tr><th>업체명</th><td id="qCompany"></td></tr><tr><th>담당자</th><td id="qManager"></td></tr><tr><th>연락처</th><td id="qPhone"></td></tr><tr><th>이메일</th><td id="qEmail"></td></tr><tr><th>현장명</th><td id="qProject"></td></tr></table>
       <table><tr><th>상호</th><td>㈜강동자바라</td></tr><tr><th>대표자</th><td>김영규</td></tr><tr><th>사업자번호</th><td>221-81-49797</td></tr><tr><th>연락처</th><td>1577-6084</td></tr><tr><th>이메일</th><td>jk0820s@naver.com</td></tr><tr><th>주소</th><td>경기도 광주시 곤지암읍 구수동길 1-26</td></tr></table>
     </div>
     <div class="quote-total-line">아래와 같이 견적합니다. <strong id="qGrandTop">총금액 0원 (V.A.T. 포함)</strong></div>
-    <table class="quote-items"><thead><tr><th>No.</th><th>제품명</th><th>규격 및 사양</th><th>단위</th><th>수량</th><th>단가</th><th>공급가액</th><th>비고</th></tr></thead><tbody id="qItems"></tbody></table>
-    <div class="quote-bottom"><div class="notice"><b>견적 조건</b><div id="qConditions"></div><p>선입금 100% 확인 후 제작 일정이 확정됩니다.</p><p>현장 조건 및 추가 제작 조건에 따라 최종 금액이 변경될 수 있습니다.</p><p>입금계좌: 기업은행 242-134872-04-021 / ㈜강동자바라</p></div><table><tr><th>공급가액</th><td id="qSupply"></td></tr><tr><th>부가세</th><td id="qVat"></td></tr><tr class="grand"><th>총금액</th><td id="qGrand"></td></tr></table></div>
+    <table class="quote-items"><thead><tr><th>No.</th><th>제품명</th><th>규격</th><th>단위</th><th>칸수</th><th>수량</th><th>단가</th><th>금액</th><th>비고</th></tr></thead><tbody id="qItems"></tbody></table>
+    <div class="quote-bottom"><div class="notice"><b>견적 조건</b><p>선입금 100% 확인 후 제작 일정이 확정됩니다.</p><p>현장 조건, 배송 및 추가 제작 조건에 따라 최종 금액이 변경될 수 있습니다.</p><p>납품 담당자: 010-3050-0482</p><p>입금계좌: 기업은행 242-134872-04-021 / ㈜강동자바라</p></div><table><tr><th>공급가액</th><td id="qSupply"></td></tr><tr><th>부가세</th><td id="qVat"></td></tr><tr class="grand"><th>총금액</th><td id="qGrand"></td></tr></table></div>
   </article>
 </section>
-
-<section id="workSheet" class="quote-sheet" aria-hidden="true">
-  <div class="quote-toolbar no-print">
-    <button id="closeWork">← 계산기로 돌아가기</button>
-    <div><button id="copyWork">작업지시내용 복사</button><button class="work-btn" id="printWork">인쇄 / PDF 저장</button></div>
-  </div>
-  <article class="paper work-paper">
-    <div class="work-title-row"><div><p>KD FACTORY WORK ORDER</p><h1>작 업 지 시 서</h1></div><div class="work-number"><span>작업번호</span><b id="wNo"></b></div></div>
-    <div class="quote-info">
-      <table><tr><th>지시일자</th><td id="wDate"></td></tr><tr><th>납기예정</th><td id="wDue"></td></tr><tr><th>업체명</th><td id="wCompany"></td></tr><tr><th>담당자</th><td id="wManager"></td></tr><tr><th>연락처</th><td id="wPhone"></td></tr><tr><th>현장명</th><td id="wProject"></td></tr></table>
-      <table><tr><th>작업 담당</th><td id="wWorker"></td></tr><tr><th>발행처</th><td>㈜강동자바라</td></tr><tr><th>주소</th><td>경기도 광주시 곤지암읍 구수동길 1-26</td></tr><tr><th>연락처</th><td>1577-6084</td></tr><tr><th>출고 방법</th><td id="wDelivery">현장 확인</td></tr><tr><th>공통 비고</th><td id="wCommonNote"></td></tr></table>
-    </div>
-    <div id="workItems" class="work-items"></div>
-    <div class="work-check-grid">
-      <div><b>공정 진행</b><label>□ 자재확인</label><label>□ 절단</label><label>□ 타공</label><label>□ 절곡</label><label>□ 용접</label><label>□ 연마</label><label>□ 조립</label><label>□ 검수</label><label>□ 포장</label><label>□ 출고</label></div>
-      <div><b>최종 확인</b><p>□ 규격 확인</p><p>□ 수량 확인</p><p>□ 재질 확인</p><p>□ 옵션 확인</p><p>□ 외관 확인</p><p>□ 출고 사진 촬영</p><p>검수자: __________________</p><p>출고일: __________________</p></div>
-    </div>
-    <div class="work-sign"><span>작성자 __________________</span><span>작업책임자 __________________</span><span>최종확인 __________________</span></div>
-  </article>
-</section>
-<script src="script.js?v=20260713-6"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
